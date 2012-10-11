@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 
 % recommended
-\SweaveOpts{prefix.string=/Users/Lizzie/Documents/R/Sweave/Projects/demoSweave/figures/demoFig, eps=F} 
+\SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/demoSweave/figures/demoFig, eps=F} 
 %put your figures in one place! You need to change this for your computer!
 % make your captioning look better
 \usepackage[small]{caption}
@@ -50,7 +50,9 @@ No, no, just kidding. These things are often a little better in practice. \\
 \\
 Let's practice.
 \section{Embed R code in your \TeX{} document!}
-<<label=nqpugly, echo=FALSE, results=hide, fig=TRUE>>=qqnorm (rnorm(100))@
+<<label=nqpugly, echo=FALSE, results=hide, fig=TRUE>>=
+qqnorm (rnorm(100))
+@
 
 Okay, let's break this down: 
 \begin{enumerate}
@@ -80,7 +82,7 @@ qqnorm(rnorm(100))
 
 Excellent, moving on let's use some real data. We'll grab some data and ask R about it. 
 <<label=getpinot, echo=FALSE>>=
-setwd("/Users/Lizzie/Documents/R/Sweave/Projects/demoSweave")
+setwd("/Users/Lizzie/Documents/git/demoSweave")
 pinot <- read.delim("data/pinotnoir.txt", header=TRUE)
 head(pinot)
 range(pinot$year)
@@ -91,7 +93,7 @@ Since I did not write \verb@results=hide@ you see the output.\\
 Let's contrast the above if I let echoing happen.
 
 <<label=getpinotwecho>>=
-setwd("/Users/Lizzie/Documents/R/Sweave/Projects/demoSweave")
+setwd("/Users/Lizzie/Documents/git/demoSweave")
 pinot <- read.delim("data/pinotnoir.txt", header=TRUE)
 head(pinot)
 range(pinot$year)
