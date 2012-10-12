@@ -5,9 +5,10 @@
 \usepackage{Sweave}
 \usepackage{graphicx}
 
-% recommended
-\SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/demoSweave/figures/demoFig, eps=F} 
-%put your figures in one place! You need to change this for your computer!
+% recommended! Uncomment the below line and change the path for your computer!
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/demoSweave/figures/demoFig, eps=F} 
+%put your figures in one place! Also, note that here 'figures' is the folder and 'demoFig' is what each 
+% figure produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
 % make your captioning look better
 \usepackage[small]{caption}
 \setlength{\captionmargin}{30pt}
@@ -159,7 +160,7 @@ Well, as you may have guessed, we didn't cover everything here. I keep learning 
  \item One easy error is to forget to close your R code. To be safe and avoid this, every time I write the opening \verb@<<>>=@ I also write the close \verb@@@.
  \item You can use escape slashes inside R chunks of code to get \LaTeX{} formatting you may want when it's written (for example, in a caption).
 \item The file extension for Sweave files with R is \verb@.Rnw@, for Sweave files with S it's \verb@.Snw@. This doesn't actually matter in practice, I just thought I would share it.
-\end{enumerate}
+\end{itemize}
 
 % Who just had a blast? I did!
 \end{document}
