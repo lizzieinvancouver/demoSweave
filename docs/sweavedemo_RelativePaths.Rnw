@@ -1,0 +1,166 @@
+%%% start preambling . . .  %%%
+\documentclass{article}
+
+% required 
+\usepackage{Sweave}
+\usepackage{graphicx}
+
+% recommended! Uncomment the below line and change the path for your computer!
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/demoSweave/figures/demoFig, eps=F} 
+%put your figures in one place! Also, note that here 'figures' is the folder and 'demoFig' is what each 
+% figure produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
+% make your captioning look better
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{October 2012}
+\fancyhead[RO]{Sweaving}
+% more optionals! %
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+%%% end preambling. %%%
+
+\begin{document}
+\title{{\huge Sweave:} \\Integrating R into your \TeX{} documents}
+\author{Lizzie Wolkovich}
+\date{10 October 2012}
+\maketitle 
+
+\section{Important note: Sweave is dead easy}
+Sweave is just like \LaTeX{}, except with a dash of extra in the preamble. If you know R and \LaTeX{} and you know the following:\\
+\\
+$<<>>=$ \\
+$@$ \\
+\\
+\ldots then you can Sweave! Congrats. Now we can break out of here and go grab a drink.\\
+\\
+No, no, just kidding. These things are often a little better in practice. \\
+\\
+Let's practice.
+\section{Embed R code in your \TeX{} document!}
+<<label=nqpugly, echo=FALSE, results=hide, fig=TRUE>>=
+qqnorm (rnorm(100))
+@
+
+Okay, let's break down what just happened (behind the scenes for those just looking at the pdf): 
+\begin{enumerate}
+\item The code $<<>>=$ tells \TeX{} that you are about to feed it R code. 
+\item The code $@$ tells \TeX{} the R code has ended.
+\item Within the  $<<>>=$ and $@$ you just type R code.
+\item Within the $<<>>=$ is the big place to get crazy! Here I told it a couple things:
+\begin{enumerate}
+\item  \verb@label=nqpugly@ is just a handy label, when your Sweave file is compiling and breaks it's nice to have this, among other handy things you can use labels for. I called mine `nqpugly' for normal quantile plot (NQP) that is ugly. I could just have easily called it `sweaverocks', but I didn't.
+\item \verb@echo=FALSE@ means I don't want \TeX{} to show the R code, note that if you are in the \verb@.Rnw@ file you see \verb@qqnorm (rnorm(100))@, but in the output you don't. That's no echoing (pardon my English). The default is to echo.
+\item \verb@results=hide@ means don't show the results either. The default is to show all your results.
+\item \verb@fig=TRUE@ means `yes! show the figure.' This, in my mind, is a hack figure. Let's fix it up a touch now (we'll center it and add a caption), since we're here.
+\end{enumerate}
+\end{enumerate}
+
+
+\begin{figure}[width=2in]
+\begin{center}
+<<label=nqpbetter,fig=TRUE,echo=FALSE, height=4, width=4>>=
+qqnorm(rnorm(100))
+@
+\end{center}
+\caption{It's a normal quantile plot, built from random data.}
+\end{figure}
+
+\newpage
+
+Excellent, moving on let's use some real data. We'll grab some data and ask R about it. 
+<<label=getpinot, echo=FALSE>>=
+pinot <- read.delim("pinotnoir.txt", header=TRUE)
+head(pinot)
+range(pinot$year)
+@
+
+Since I did not write \verb@results=hide@ you see the output.\\
+\\
+Let's contrast the above if I let echoing happen.
+
+<<label=getpinotwecho>>=
+pinot <- read.delim("pinotnoir.txt", header=TRUE)
+head(pinot)
+range(pinot$year)
+@
+
+By the way, I took these data from the National Climatic Data Center in the USA (see: \url{http://www.ncdc.noaa.gov/paleo/pubs/chuine2004/chuine2004.html} if you want the metadata for them). They show the grape harvest records (harvest date is given as days after September 1) from Burgundy for the past 600 or so years (the dominant variety in Burgundy is Pinot Noir, hence my naming of the dataframe). Grape harvest records, like these, have been used to reconstruct past climate. They also offer evidence of recent changes in climate, at least partially associated with increasing greenhouse gas emissions (whee---that last clause is how all my climatologists always tell me to say it). \\
+\\
+Next, let's make some tables. For this we use the \verb@xtable@ package from R. According to the Intergovernmental Panel on Climate Change (IPCC) significant warming began in 1970, so we'll subset the data to after then and look for a trend.\\
+
+<<label=anovatable, echo=FALSE, results=tex>>=
+aov1970 <- anova(lm(harvestdate~year, data=subset(pinot, year>1970))) # Note that I can use the regular anova command here since it's just a simple one-way regression, remember to get nervous around this command in R when you have more than one predictor variable.
+library(xtable)
+print(xtable(aov1970, caption = "An ANOVA table, so little effort for so much prettiness",  caption.placement = "top"))
+@
+
+Note the \verb@results=tex@ command, this makes the output in \TeX{} formatting. \\
+\\
+ANOVA tables are pretty dull though, so let's do a more real-life example. Let's contrast this $\sim30$ year time period with three others I haphazardly selected. We'll show the degrees of freedom, F statistic and p-value, as well as the mean value (which is change per year). 
+\\
+<<label=tablex3, echo=FALSE, results=tex>>=
+# first up, we'll make the fits #
+aov19 <- lm(harvestdate~year, data=subset(pinot, year>1970))
+aov17 <- lm(harvestdate~year, data=subset(pinot, year>1770 & year<1803))
+aov15 <- lm(harvestdate~year, data=subset(pinot, year>1570 & year<1603))
+aov13 <- lm(harvestdate~year, data=subset(pinot, year>1370 & year<1403))
+# next we'll make the data rows #
+row1900 <- c(coef(aov19)[2], aov19$df[1], anova(aov19)$F[1], anova(aov19)["Pr(>F)"][[1]][1])
+row1700 <- c(coef(aov17)[2], aov17$df[1], anova(aov17)$F[1], anova(aov17)["Pr(>F)"][[1]][1])
+row1500 <- c(coef(aov15)[2], aov15$df[1], anova(aov15)$F[1], anova(aov15)["Pr(>F)"][[1]][1])
+row1300 <- c(coef(aov13)[2], aov13$df[1], anova(aov13)$F[1], anova(aov13)["Pr(>F)"][[1]][1])
+yearz <- rbind(row1900, row1700, row1500, row1300)
+# we could automate this more, but for now let's skip it and get on with the table formatting #
+mytable <- data.frame(yearz, row.names = c("1970-2003", "1770-1803", "1570-1603", "1370-1403"))
+names(mytable) <- c("days/year", "DF", "F", "p-value")
+make.mytable <- xtable(mytable, caption="Comparisons of regression of harvest dates for Pinot Noir in Burgundy region of France across different centuries", digits=c(0, 2, 0, 2, 3))
+print(make.mytable,include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@
+\\
+Let's break down a little of what happened here (again, you'll enjoy this more looking at the \verb@Rnw@ file, instead of the \verb@pdf@):
+\begin{enumerate}
+\item First you see a bunch of ugly R code to pull together what I want in each row, depending on what you're doing, you can automate this and make it much prettier!
+\item Next I bind the rows into a dataframe where I set the row names to be useful.
+\item I make the column headers (\verb@names@) useful as well.
+\item Then I call \verb@xtable@, I give it the dataframe to make into a table, I tell it a caption, and I tell it the number of significant digits for each row. You don't have to specify the \verb@digits@ command (as we didn't in the ANOVA table example), but here it's nice to adjust it for the DFs versus other values.
+\end{enumerate}
+
+Okay, how about one last trick? We saw that since 1970 harvest dates of the delicious Pinot Noir grapes from Burgundy have been advancing each year. Let's say we want to discuss the exact value in the text. We want to say that harvest dates of the delicious Pinot Noir grapes from Burgundy have been shifting about \Sexpr{format(coef(aov19)[2], digits=2)} days each year, or \Sexpr{format(coef(aov19)[2]*32, digits=1)} days since 1970. \\
+\\
+So, all we did was use \verb@Sexpr{}@, and stuck in some R code in line. I also tossed in that \verb@digits@ command again with \verb@format@, if I didn't it would look like this: \ldots delicious Pinot Noir grapes from Burgundy have been shifting about \Sexpr{coef(aov19)[2]} days each year. And, let's be honest, the latter is just not going to impress your friends or reviewers that much.
+
+\section{Now you!}
+Now would be a great time for you to muck with this document. First, get it to run on your machine\footnote{Important note for TeXshop users! Be sure you set your drop-down menu from \LaTeX to Sweave before you try to compile.}, next try turning on and off things like \verb@echo=FALSE@ or \verb@results=hide@. \\
+\\
+Then, may I suggest you try plotting the Pinot Noir data yourself? Maybe add a fit line? I specifically avoided such fun so you could see it. Try plotting all of it, then 1970 onward. You could also see if things were a little weird around 1883 when Krakatoa blew and mucked up the global climate a little (I haven't even done that myself so I would be interested to see it). 
+\section{A bunch of random notes}
+Where to next, fellow Sweaver? \\
+\\
+Well, as you may have guessed, we didn't cover everything here. I keep learning more every time I build a giant new Sweave file and suspect you will too. I have some resources on my webpage (\url{http://www.zoology.ubc.ca/~wolkovich/emwresource.htm#latex}) and you'll find many others online. \\
+\\ Before we part though some random notes I wanted to share:
+\begin{itemize}
+\item To pull just your R code out of a Sweave doc you can use the following in R:\\
+ \verb@Stangle("filename.Rnw",output="filenameout")@.
+ \item One easy error is to forget to close your R code. To be safe and avoid this, every time I write the opening \verb@<<>>=@ I also write the close \verb@@@.
+ \item You can use escape slashes inside R chunks of code to get \LaTeX{} formatting you may want when it's written (for example, in a caption).
+\item The file extension for Sweave files with R is \verb@.Rnw@, for Sweave files with S it's \verb@.Snw@. This doesn't actually matter in practice, I just thought I would share it.
+\end{itemize}
+
+% Who just had a blast? I did!
+\end{document}
+
+% One little LaTeX hint for you all -- if someday you submit your TeX code to a journal, say, Nature -- be sure to remove all this sort of embarrassing commenting first! Not that I am speaking from experience, or anything.
