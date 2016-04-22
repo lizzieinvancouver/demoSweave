@@ -1,0 +1,646 @@
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+%Strongly recommended
+  %put your figures in one place
+%you'll want these for pretty captioning
+\usepackage[small]{caption}
+\setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
+
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ %\pagestyle{empty}       % Uncomment if don't want page numbers
+ \parskip 7.2pt           % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 0pt		  % sets leading space for paragraphs
+\usepackage{setspace}
+%\doublespacing
+
+%Optional: I like fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Wolkovich et al.
+\fancyhead[RO]{2012}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+
+%Start of the document
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/nature.bst}
+
+\title{Online Supplemental Materials: \\ \\ Phenology and plant invasions: Climate change contributes to exotic species' success in temperature-limited systems}
+\author{E. M. Wolkovich, T. J. Davies, H. Schaefer, E. E. Cleland, S. Travers,  B. I. Cook, \\
+C. G. Willis \& C. C. Davis}
+%\date{\today}
+\maketitle  %put the fancy title on
+%\tableofcontents      %add a table of contents
+%\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\labelitemi}{$-$}
+
+%%%%%%%%%%%%%%%% Here we go, boys and girls %%%%%%
+\section {Overview of Phylomatic and PHLAWD model results}
+\newline 
+Results of comparing exotic and native species in linear models (LM) and phylogenetic general linear models (PGLM) at five sites considering mean flowering date (day of year), climate sensitivities, flowering time shift (not available for Konza, see main text) in two different tree flavors (Phylomatic  and PHLAWD).  The following are the variables evaluated and their shorthand in tables S1 to S6 and S8-S13, we explain the models briefly here and provide a more complete description of each in the main text.
+\begin{itemize}
+\item mean FFD: mean first flowering day of year
+\item flowering time shift: how much a species has shifted its flowering date over time
+\item sensitivity (gdd): temperature sensitivity from growing degree day model based on 3 month windows regressed against flowering time each year
+\item sensitivity (gdd w/ prec): as in sensitivity (gdd) but taken as main effect of temperature from model which also includes 3 month summations of precipitation and interaction between precipitation and temperature
+\item  sensitivity (prec w/ gdd): same model as described for sensitivity (gdd w/ prec) but showing the main effect of precipitation
+\item  sensitivity (intxn): same model as described for sensitivity (gdd w/ prec) but showing the interaction term of precipitation and temperature
+\item  sensitivity (soil moisture): sensitivity to monthly soil moisture based on regression of soil moisture against flower time each year (for Konza only)
+\item sensitivity (3 month): sensitivity to temperature based on 3 month (monthly means) 
+\item sensitivity (MAT): the main temperature sensitivity presented in the main text, based on mean annual temperature (MAT)
+\end{itemize}
+
+<<echo=FALSE>>=
+options(width=90)
+@
+
+<<label=sourcestuff, echo=FALSE, results=hide>>=
+options(stringsAsFactors=FALSE)
+library(nlme)
+library(picante)
+library(car)
+library(xtable)
+
+setwd("/Users/Lizzie/Documents/R/NCEAS/Phenology/NatExotic")
+source("/Users/Lizzie/Documents/R/fromNicolas/pglm.R")
+source("phenNatExo_dataprep.R")
+source("phenNatExo_helperfxs.R")
+
+conc <- conctraits("input/sensitivities/concord_ALLSEAS.", "concord", conc.natexo, noxconc)
+concdoy <- conctraits.doy(conc.natexo, noxconc, concchange)
+
+conctref.mat <- conctrefum.mat
+concgdd.dat <- subset(as.data.frame(conc$gdd[-341,]),is.na(native.exotic)==FALSE)
+concgdd.dat <- concgdd.dat[-14,]
+concgdd <- matchtreedat(conctref.mat, concgdd.dat,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "meanFFD", "daysperHI"))
+
+conctree <- matchtreephy(conctref.mat, concgdd.dat,"latbi")
+
+conc.dat <- subset(as.data.frame(conc$mat[-341,]),is.na(native.exotic)==FALSE)
+conc.dat <- conc.dat[-14,]
+
+concdata <- matchtreedat(conctref.mat, conc.dat,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "native.exotic12", "inv.non12", "meanFFD", "daysperC"))
+conctree <- matchtreephy(conctref.mat, conc.dat,"latbi") # overwriting above, but seems fine since species don't change
+
+conc.doy <- subset(concdoy, is.na(native.exotic)==FALSE)
+conc.doy <-  conc.doy[-13,]
+
+concdoych <- matchtreedat(conctref.mat, conc.doy,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "doychange"))
+conctreedoy <- matchtreephy(conctref.mat, conc.doy,"latbi")
+
+vcv.conc <- vcv.phylo(conctree, model="Brownian", corr=FALSE)
+vcv.doy <- vcv.phylo(conctreedoy, model="Brownian", corr=FALSE)
+    
+conc.ffd.lm <- lm(meanFFD~as.factor(native.exotic), data=concdata)
+conc.ffd.gee <-pglmEstLambda(meanFFD~as.factor(native.exotic), data=concdata, vcv.conc)
+conc.doy.lm <- lm(doychange~as.factor(native.exotic), data= concdoych)
+conc.doy.gee <- pglmEstLambda(doychange~as.factor(native.exotic), data= concdoych, vcv.doy)
+conc.mo3.lm <- lm(daysperHI~as.factor(native.exotic), data= concgdd)
+conc.mo3.gee <- pglmEstLambda(daysperHI~as.factor(native.exotic), data= concgdd, vcv.conc)
+conc.mat.lm <- lm(daysperC~as.factor(native.exotic), data=concdata)
+conc.mat.gee <- pglmEstLambda(daysperC~as.factor(native.exotic), data=concdata, vcv.conc)
+
+meanffd <- c(conc.ffd.lm$df, conc.ffd.lm$coef[1], conc.ffd.lm$coef[1]+conc.ffd.lm$coef[2], summary(conc.ffd.lm)$coef[8], conc.ffd.gee$lambda, coef(conc.ffd.gee)[1], coef(conc.ffd.gee)[1]+coef(conc.ffd.gee)[2], pglm.pval(conc.ffd.gee))
+
+doychanger <- c(conc.doy.lm$df, conc.doy.lm$coef[1], conc.doy.lm$coef[1]+conc.doy.lm$coef[2], summary(conc.doy.lm)$coef[8], conc.doy.gee$lambda, coef(conc.doy.gee)[1], coef(conc.doy.gee)[1]+coef(conc.doy.gee)[2], pglm.pval(conc.doy.gee))
+
+mo3 <- c(conc.mo3.lm$df, conc.mo3.lm$coef[1], conc.mo3.lm$coef[1]+conc.mo3.lm$coef[2], summary(conc.mo3.lm)$coef[8], conc.mo3.gee$lambda,  coef(conc.mo3.gee)[1], coef(conc.mo3.gee)[1]+ coef(conc.mo3.gee)[2], pglm.pval(conc.mo3.gee))
+
+mat <- c(conc.mat.lm$df, conc.mat.lm$coef[1], conc.mat.lm$coef[1]+conc.mat.lm$coef[2], summary(conc.mat.lm)$coef[8], conc.mat.gee$lambda, coef(conc.mat.gee)[1], coef(conc.mat.gee)[1]+coef(conc.mat.gee)[2], pglm.pval(conc.mat.gee))
+
+daterrows <- rbind(meanffd, doychanger, mo3, mat)
+
+memodels <- data.frame(daterrows, row.names = c("mean FFD", "flowering time shift", "sensitivity (3 month)", "sensitivity (MAT)"))
+names(memodels) <- c( "DF", "LM: exotic", "LM: native", "LM: p", "PGLM: lambda", "PGLM: exotic", "PGLM: native", "PGLM: p")
+memodels.table.phylomat.conc <- xtable(memodels, caption="Results of LMs and PGLMs for Concord data using USDA Plants to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3,  2, 2,3))
+align(memodels.table.phylomat.conc) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+%% \subsection{Konza, Kansas, USA}
+<< echo=FALSE, results=hide, label=konza.output>>=
+konztref.mat <- konztrefum.mat
+
+konz <- konzatraits("input/sensitivities/konza_kans_usa_ALLSEAS.", "konza", gentraitstra)
+konzdoy <- konza.doy(gentraitstra,konzachange,  "konza")
+konzmatic <- konzagoo.nosig(konz, konzdoy, konztref.mat)
+@
+
+<< echo=FALSE,label=konztable1, results=hide>>=
+memodels <- massivetable.pglmDF.smkonznoout(konzmatic)
+memodels.table.phylomat.konz <- xtable(memodels, caption="Results of LMs and PGLM for Konza data using USDA Plants to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phylomat.konz) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+%% \subsection{Fargo, North Dakota, USA}
+<< echo=FALSE, label=fargo.output, results=hide>>=
+fargotref.mat <- fargotrefum.mat
+
+fargo <- fargotraits("input/sensitivities/travers_nd_usa_ALLSEAS.", "fargo", far.natexo, noxfar)
+fargodoy <- fargotraits.doy(far.natexo, noxfar, fargochange)
+far.doy <-  subset(fargodoy ,is.na(native.exotic)==FALSE)
+fardoy <-  subset(far.doy, native.exotic!="native/exotic" & native.exotic!="")
+fargomatic <- mostsitesgoo.nosig(fargo, fardoy, "doychange", fargotref.mat)
+@
+
+<< echo=FALSE,label=fargomake.natexo.table, results=hide>>=
+memodels <- moremassivetable.pglmDF(fargomatic)
+memodels.table.phylomat.far <- xtable(memodels, caption="Results of LMs and PGLMs for Fargo data using USDA Plants to establish native status, including all species.", label="labelhere", digits=c(0, 0, 2, 2, 3,3, 2, 2,3))
+align(memodels.table.phylomat.far) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+
+@
+
+%% \subsection{Fargo, North Dakota, USA, minus 1 outlier species}
+<< echo=FALSE, label=fargo.output, results=hide>>=
+fargotref.mat <- fargotrefum.mat
+
+fargo <- fargotraits.nocrazychenopodium("input/sensitivities/travers_nd_usa_ALLSEAS.", "fargo", far.natexo, noxfar)
+fargodoy <- fargotraits.doy.nocrazychenopodium(far.natexo, noxfar, fargochange)
+far.doy <-  subset(fargodoy ,is.na(native.exotic)==FALSE)
+fardoy <-  subset(far.doy, native.exotic!="native/exotic" & native.exotic!="")
+fargomatic <- mostsitesgoo.nosig(fargo, fardoy, "doychange", fargotref.mat)
+@
+
+<< echo=FALSE,label=fargomake.natexo.table, results=hide>>=
+memodels <- moremassivetable.pglmDF(fargomatic)
+memodels.table.phylomat.farOUT <- xtable(memodels, caption="Results of LMs and PGLMs for Fargo data using USDA Plants to establish native status, excluding Chenopodium species that is an outlier.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phylomat.farOUT) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+
+@
+
+
+
+%% \subsection{Chinnor, United Kingdom}
+<< echo=FALSE, label=fitter.output, results=hide>>=
+fittref.mat <- fittrefum.mat
+
+fitt <- fittertraits("input/sensitivities/fitter_chn_grb_ALLSEAS.", "fitter", fittertra)
+fittdoy <- fitter.doy(fittertra, fitterchange)
+fittermatic <- mostsitesgoo.nosig(fitt, fittdoy, "changeovertime",  fittref.mat)
+@
+
+<< echo=FALSE,label=fitteromake.natexo.table, results=hide>>=
+memodels <- moremassivetable.overtime.pglmDF(fittermatic)
+memodels.table.phylomat.fit <- xtable(memodels, caption="Results of LMs and PGLMs for Chinnor data using Botanical Society of the British Isles online database to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3,  2, 2,3))
+align(memodels.table.phylomat.fit) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+
+@
+
+
+%% \subsection{Washington, DC, USA -- non-cultivated species}
+<< echo=FALSE, label=dc.output, results=hide>>=
+dctref.mat <- dctrefum.mat
+
+sppdctraits <- subset(sppdctraits, native.exotic != "<NA>")
+sppdctraits.ncul <- subset(sppdctraits, CUL=="N")
+
+washdc <- washdctraits("input/sensitivities/abu_wsh_usa_ALLSEAS.", "washdc", sppdctraits.ncul)
+washdcdoy <- washdc.doy(sppdctraits.ncul, washdcchange)
+washdcdoy <- subset(washdcdoy, is.na(changeovertime)==FALSE)
+
+washdcmatic <- dcgoo.nosig(washdc, washdcdoy, "changeovertime",   dctref.mat)
+@
+
+
+<< echo=FALSE,label=dcmake.natexo.table, results=hide>>=
+memodels <- moremassivetable.overtime.pglmDF(washdcmatic)
+memodels.table.phylomat.dc <- xtable(memodels, caption="Results of LMs and PGLMs or Washington, DC (non-cultivated species) using USDA Plants to establish # native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phylomat.dc) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+ 
+
+%%
+%% PUT Tables that will end up in main text code if you like
+%%
+
+% species overlap
+<<label=spoverlap, echo=FALSE, results=hide>>=
+concgdd <- conc$gdd
+fittgdd <- fitt$gdd
+fittgddsm <- subset(fittgdd, select=c("latbi", "daysperHI", "meanFFD",
+    "native.exotic"))
+concgddsm <- subset(concgdd, select=c("latbi", "daysperHI", "meanFFD",
+    "native.exotic"))
+
+spoverlap <- merge(fittgddsm, concgddsm, by="latbi", suffixes=c(".fitt", ".conc"))
+
+spoverlap$natexo.sq <- paste(spoverlap$native.exotic.fitt,
+    spoverlap$native.exotic.conc, sep="-")
+
+nativesinFitt <- subset(spoverlap, natexo.sq=="native-exotic") # 42 species!
+
+fittgdd$nativesinFitt <- "no"
+fittgdd$nativesinFitt[which(fittgdd$latbi %in% nativesinFitt$latbi)] <- "yes"
+
+concgdd$nativesinFitt <- "no"
+concgdd$nativesinFitt[which(concgdd$latbi %in% nativesinFitt$latbi)] <- "yes"
+
+# get rid of other exotics at Concord and all exotics at Fitter:
+concgdd <- concgdd[which(!(concgdd$nativesinFitt=="no"
+    & concgdd$native.exotic=="exotic")),]
+fittgdd <- subset(fittgdd, native.exotic=="native")
+
+concdoy <- conctraits.doy(conc.natexo, noxconc, concchange)
+fittdoy <- fitter.doy(fittertra, fitterchange)
+
+fittdoy$nativesinFitt <- "no"
+fittdoy$nativesinFitt[which(fittdoy$latbi %in% nativesinFitt$latbi)] <- "yes"
+
+concdoy$nativesinFitt <- "no"
+concdoy$nativesinFitt[which(concdoy$latbi %in% nativesinFitt$latbi)] <- "yes"
+
+# get rid of other exotics at Concord and all exotics at Fitter:
+concdoy <- concdoy[which(!(concdoy$nativesinFitt=="no"
+    & concdoy$native.exotic=="exotic")),]
+fittdoy <- subset(fittdoy, native.exotic=="native")
+
+spo.fittmod <- lm(daysperHI~nativesinFitt, data=fittgdd)
+spo.fittmod.ffd <- lm(meanFFD~nativesinFitt, data=fittgdd)
+spo.fittmod.doy <- lm(changeovertime~nativesinFitt, data=fittdoy)
+spo.concmod <- lm(daysperHI~nativesinFitt, data=concgdd)
+spo.concmod.ffd <- lm(meanFFD~nativesinFitt, data=concgdd)
+spo.concmod.doy <- lm(doychange~nativesinFitt, data=concdoy)
+
+summary(spo.fittmod) 
+summary(spo.concmod) 
+summary(spo.fittmod.ffd) 
+summary(spo.concmod.ffd) 
+summary(spo.fittmod.doy) 
+summary(spo.concmod.doy) 
+
+spo.chinffd <- c(coef(spo.fittmod.ffd)[1]+coef(spo.fittmod.ffd)[2], coef(spo.fittmod.ffd)[1], spo.fittmod.ffd$df, 
+    Anova(spo.fittmod.ffd)[["F value"]][1], Anova(spo.fittmod.ffd)[["Pr(>F)"]][1])
+spo.chinsens <- c(coef(spo.fittmod)[1]+coef(spo.fittmod)[2], coef(spo.fittmod)[1],  spo.fittmod$df, 
+    Anova(spo.fittmod)[["F value"]][1], Anova(spo.fittmod)[["Pr(>F)"]][1])
+spo.chindoy <- c(coef(spo.fittmod.doy)[1]+coef(spo.fittmod.doy)[2], coef(spo.fittmod.doy)[1], spo.fittmod.doy$df, 
+   Anova(spo.fittmod.doy)[["F value"]][1], Anova(spo.fittmod.doy)[["Pr(>F)"]][1])
+
+spo.concffd <- c(coef(spo.concmod.ffd)[1]+coef(spo.concmod.ffd)[2], coef(spo.concmod.ffd)[1], spo.concmod.ffd$df, 
+    Anova(spo.concmod.doy)[["F value"]][1], Anova(spo.concmod.ffd)[["Pr(>F)"]][1])
+spo.concsens <- c(coef(spo.concmod)[1]+coef(spo.concmod)[2], coef(spo.concmod)[1], spo.concmod$df, 
+    Anova(spo.concmod)[["F value"]][1], Anova(spo.concmod)[["Pr(>F)"]][1])
+spo.concdoy <- c(coef(spo.concmod.doy)[1]+coef(spo.concmod.doy)[2], coef(spo.concmod.doy)[1], spo.concmod.doy$df, 
+    Anova(spo.concmod.doy)[["F value"]][1], Anova(spo.concmod.doy)[["Pr(>F)"]][1])
+
+
+siterows <- rbind(spo.chinffd, spo.concffd,  spo.chinsens,  spo.concsens, spo.chindoy, spo.concdoy)
+
+spo.table <- data.frame(siterows, row.names = c("Chinnor: FFD", "Concord: FFD", 
+      "Chinnor: sensitivity", "Concord: sensitivity", "Chinnor: change", "Concord: change"))
+names(spo.table) <- c("shared spp.", "other spp", "DF", "F",  "p")
+
+spo.table.ha <- xtable(spo.table, caption="Comparisons of shared 42 species.", label="labelhere", digits=c(0, 2, 2, 0, 2, 2))
+
+tablenatfitt <- merge(fitt$gdd, nativesinFitt, by="latbi")
+splisthere  <- as.data.frame(paste(tablenatfitt$Genus, tablenatfitt$Species))
+names(splisthere) <- "Shared species"
+splisttable <- xtable(splisthere, caption="Latin binomials of the 42 species native to Chinnor (UK) and exotic to Concord, Massachusetts (USA). See main text for further details.", label="labelhere")
+@
+
+%% 
+%% After species overlap part goes here
+%%
+%%
+
+\clearpage
+\section{Results using Phylomatic trees}
+
+
+<< echo=FALSE, results=tex>>=
+print(memodels.table.phylomat.conc, include.rownames=TRUE, caption.placement="top",
+     hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=konzatablewriteout>>=
+print(memodels.table.phylomat.konz , include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=fargotablewriteout1>>=
+print(memodels.table.phylomat.far, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=fargotablewriteout1>>=
+print(memodels.table.phylomat.farOUT , include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+
+<< echo=FALSE, results=tex,label=fittertablewriteout1>>=
+print(memodels.table.phylomat.fit, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=dctablewriteout1>>=
+print(memodels.table.phylomat.dc, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+\clearpage
+
+<<results=hide, label=writephylomaticoutput, echo=FALSE>>=
+########################
+write.tree(conctree, "output/trees/conctreeMAT.txt")
+write.tree(conctreedoy, "output/trees/conctreedoychange.txt")
+write.csv(concdata, "output/data/concMAT.csv", row.names=TRUE)
+write.csv(concdoych, "output/data/concdoychange.csv", row.names=TRUE)
+
+write.tree(konzmatic$tree.mat, "output/trees/konztreeMAT.txt")
+write.csv(konzmatic$matmod, "output/data/konzMAT.csv", row.names=TRUE)
+
+write.tree(fargomatic$tree.mat, "output/trees/fargotreeMAT.txt")
+write.tree(fargomatic$treedoy, "output/trees/fargotreedoychange.txt")
+write.csv(fargomatic$matmod, "output/data/fargoMAT.csv", row.names=TRUE)
+write.csv(fargomatic$doymod, "output/data/fargodoychange.csv", row.names=TRUE)
+
+write.tree(fittermatic$tree.mat, "output/trees/fittertreeMAT.txt")
+write.tree(fittermatic$treedoy, "output/trees/fittertreedoychange.txt")
+write.csv(fittermatic$matmod, "output/data/fitterMAT.csv", row.names=TRUE)
+write.csv(fittermatic$doymod, "output/data/fitterdoychange.csv", row.names=TRUE)
+
+write.tree(washdcmatic$tree.mat, "output/trees/washdctreeMAT.txt")
+write.tree(washdcmatic$treedoy, "output/trees/washdctreedoychange.txt")
+write.csv(washdcmatic$matmod, "output/data/washdcMAT.csv", row.names=TRUE)
+write.csv(washdcmatic$doymod, "output/data/washdcdoychange.csv", row.names=TRUE)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results using PHLAWD trees}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<label=concfiles, echo=FALSE>>=
+conc <- conctraits("input/sensitivities/concord_ALLSEAS.", "concord", conc.natexo, noxconc)
+concdoy <- conctraits.doy(conc.natexo, noxconc, concchange)
+@
+
+<<label=preprunconcwSpp, echo=FALSE, results=hide>>=
+conctref.mat <-conctre.pl
+concgdd.dat <- subset(as.data.frame(conc$gdd[-341,]),is.na(native.exotic)==FALSE)
+concgdd.dat <- concgdd.dat[-14,]
+concgdd <- matchtreedat(conctref.mat, concgdd.dat,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "meanFFD", "daysperHI"))
+@
+
+<<label=preprunconcSilent, echo=FALSE,results=hide>>=
+conctree <- matchtreephy(conctref.mat, concgdd.dat,"latbi")
+
+conc.dat <- subset(as.data.frame(conc$mat[-341,]),is.na(native.exotic)==FALSE)
+conc.dat <- conc.dat[-14,]
+
+concdata <- matchtreedat(conctref.mat, conc.dat,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "native.exotic12", "inv.non12", "meanFFD", "daysperC"))
+conctree <- matchtreephy(conctref.mat, conc.dat,"latbi")
+
+conc.doy <- subset(concdoy, is.na(native.exotic)==FALSE)
+conc.doy <-  conc.doy[-13,]
+
+concdoych <- matchtreedat(conctref.mat, conc.doy,"latbi",
+    c("full.code", "nat.exoinv", "inv", "native.exotic", "doychange"))
+conctreedoy <- matchtreephy(conctref.mat, conc.doy,"latbi")
+@
+
+
+<< echo=FALSE, results=hide>>=
+vcv.conc <- vcv.phylo(conctree, model="Brownian", corr=FALSE)
+vcv.doy <- vcv.phylo(conctreedoy, model="Brownian", corr=FALSE)
+    
+conc.ffd.lm <- lm(meanFFD~as.factor(native.exotic), data=concdata)
+conc.ffd.gee <-pglmEstLambda(meanFFD~as.factor(native.exotic), data=concdata, vcv.conc)
+conc.doy.lm <- lm(doychange~as.factor(native.exotic), data= concdoych)
+conc.doy.gee <- pglmEstLambda(doychange~as.factor(native.exotic), data= concdoych, vcv.doy)
+conc.mo3.lm <- lm(daysperHI~as.factor(native.exotic), data= concgdd)
+conc.mo3.gee <- pglmEstLambda(daysperHI~as.factor(native.exotic), data= concgdd, vcv.conc)
+conc.mat.lm <- lm(daysperC~as.factor(native.exotic), data=concdata)
+conc.mat.gee <- pglmEstLambda(daysperC~as.factor(native.exotic), data=concdata, vcv.conc)
+
+meanffd <- c(conc.ffd.lm$df, conc.ffd.lm$coef[1], conc.ffd.lm$coef[1]+conc.ffd.lm$coef[2], summary(conc.ffd.lm)$coef[8], conc.ffd.gee$lambda, coef(conc.ffd.gee)[1], coef(conc.ffd.gee)[1]+coef(conc.ffd.gee)[2], pglm.pval(conc.ffd.gee))
+
+doychanger <- c(conc.doy.lm$df, conc.doy.lm$coef[1], conc.doy.lm$coef[1]+conc.doy.lm$coef[2], summary(conc.doy.lm)$coef[8], conc.doy.gee$lambda, coef(conc.doy.gee)[1], coef(conc.doy.gee)[1]+coef(conc.doy.gee)[2], pglm.pval(conc.doy.gee))
+
+mo3 <- c(conc.mo3.lm$df, conc.mo3.lm$coef[1], conc.mo3.lm$coef[1]+conc.mo3.lm$coef[2], summary(conc.mo3.lm)$coef[8], conc.mo3.gee$lambda,  coef(conc.mo3.gee)[1], coef(conc.mo3.gee)[1]+ coef(conc.mo3.gee)[2], pglm.pval(conc.mo3.gee))
+
+mat <- c(conc.mat.lm$df, conc.mat.lm$coef[1], conc.mat.lm$coef[1]+conc.mat.lm$coef[2], summary(conc.mat.lm)$coef[8], conc.mat.gee$lambda, coef(conc.mat.gee)[1], coef(conc.mat.gee)[1]+coef(conc.mat.gee)[2], pglm.pval(conc.mat.gee))
+
+daterrows <- rbind(meanffd, doychanger, mo3, mat)
+
+memodels <- data.frame(daterrows, row.names = c("mean FFD", "flowering time shift", "sensitivity (3 month)", "sensitivity (MAT)"))
+names(memodels) <- c("DF", "LM: exotic", "LM: native", "LM: p", "PGLM: lambda", "PGLM: exo", "PGLM: nat", "PGLM: p")
+memodels.table.phlawd.conc <- xtable(memodels, caption="Results of LMs and PGLM for Concord data using USDA Plants to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3,  2, 2,3))
+align(memodels.table.phlawd.conc) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+
+@
+
+
+%% \subsection{Konza, Kansas, USA}
+<< echo=FALSE, results=hide, label=konza.output>>=
+konztref.mat <- konztre.pl
+
+konz <- konzatraits("input/sensitivities/konza_kans_usa_ALLSEAS.", "konza", gentraitstra)
+konzdoy <- konza.doy(gentraitstra,konzachange,  "konza")
+konzmatic <- konzagoo.nosig(konz, konzdoy, konztref.mat)
+@
+
+@
+
+<< echo=FALSE,label=konztable1, results=hide>>=
+memodels <- massivetable.pglmDF.smkonznoout(konzmatic)
+memodels.table.phlawd.konz <- xtable(memodels, caption="Results of LMs and PGLMs for Konza data using USDA Plants to establish native status. ", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phlawd.konz) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+%% \subsection{Fargo, North Dakota, USA}
+<< echo=FALSE, label=fargo.output, results=hide>>=
+fargotref.mat <- fargotre.pl
+
+fargo <- fargotraits("input/sensitivities/travers_nd_usa_ALLSEAS.", "fargo", far.natexo, noxfar)
+fargodoy <- fargotraits.doy(far.natexo, noxfar, fargochange)
+far.doy <-  subset(fargodoy ,is.na(native.exotic)==FALSE)
+fardoy <-  subset(far.doy, native.exotic!="native/exotic" & native.exotic!="")
+fargomatic <- mostsitesgoo.nosig(fargo, fardoy, "doychange", fargotref.mat)
+@
+
+
+<< echo=FALSE,label=fargomake.natexo.table, results=hide>>=
+memodels <- moremassivetable.pglmDF(fargomatic)
+memodels.table.phlawd.far <- xtable(memodels, caption="Results of LMs and PGLMs for Fargo data using USDA Plants to establish native status, including all species.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phlawd.far ) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+
+%% \subsection{Fargo, North Dakota, USA, minus 1 outlier species}
+<< echo=FALSE, label=fargo.output, results=hide>>=
+fargotref.mat <- fargotre.pl
+
+fargo <- fargotraits.nocrazychenopodium("input/sensitivities/travers_nd_usa_ALLSEAS.", "fargo", far.natexo, noxfar)
+fargodoy <- fargotraits.doy.nocrazychenopodium(far.natexo, noxfar, fargochange)
+far.doy <-  subset(fargodoy ,is.na(native.exotic)==FALSE)
+fardoy <-  subset(far.doy, native.exotic!="native/exotic" & native.exotic!="")
+fargomatic <- mostsitesgoo.nosig(fargo, fardoy, "doychange", fargotref.mat)
+@
+
+<< echo=FALSE,label=fargomake.natexo.table, results=hide>>=
+memodels <- moremassivetable.pglmDF(fargomatic)
+memodels.table.phlaw.far.noCheno <- xtable(memodels, caption="Results of LMs and PGLMs for Fargo data using USDA Plants to establish native status, excluding Chenopodium species that is an outlier.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phlaw.far.noCheno) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+
+<< echo=FALSE,label=fargomake.fullcode.table, results=hide>>=
+memodels <- moremassivetable.fc.pglmDF(fargomatic)
+memodelsFC.table.phlawd.fargo <- xtable(memodels, caption="Results of LMs and PGLMs for Fargo data using USDA Plants to establish native status and North Dakota Noxious Weeds list to establish invasiveness, excluding one outlier species. No native-invasive species at Fargo.", label="labelhere", digits=c(0, 0, 2, 2, 2, 3, 2, 2, 2, 3))
+@
+
+%% \subsection{Chinnor, United Kingdom}
+<< echo=FALSE, label=fitter.output, results=hide>>=
+fittref.mat <- fittre.pl
+
+fitt <- fittertraits("input/sensitivities/fitter_chn_grb_ALLSEAS.", "fitter", fittertra)
+fittdoy <- fitter.doy(fittertra, fitterchange)
+fittermatic <- mostsitesgoo.nosig(fitt, fittdoy, "changeovertime",  fittref.mat)
+@
+
+<< echo=FALSE,label=fitteromake.natexo.table, results=hide>>=
+memodels <- moremassivetable.overtime.pglmDF(fittermatic)
+memodels.table.phlawd.fit <- xtable(memodels, caption="Results of LMs and PGLMs for Chinnor data using Botanical Society of the British Isles online database to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phlawd.fit) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+
+%% \subsection{Washington, DC, USA -- non-cultivated species}
+<< echo=FALSE, label=dc.output, results=hide>>=
+dctref.mat <- dctre.pl
+
+sppdctraits <- subset(sppdctraits, native.exotic != "<NA>")
+
+washdc <- washdctraits("input/sensitivities/abu_wsh_usa_ALLSEAS.", "washdc", sppdctraits.ncul)
+washdcdoy <- washdc.doy(sppdctraits.ncul, washdcchange)
+washdcdoy <- subset(washdcdoy, is.na(changeovertime)==FALSE)
+
+washdcmatic <- dcgoo.nosig(washdc, washdcdoy, "changeovertime",   dctref.mat)
+@
+
+<< echo=FALSE,label=dcmake.natexo.table, results=hide>>=
+memodels <- moremassivetable.overtime.pglmDF(washdcmatic)
+memodels.table.phlawd.dc <- xtable(memodels, caption="Results of LMs and PGLMs for Washington, DC (non-cultivated species) using USDA Plants to establish native status.", label="labelhere", digits=c(0, 0, 2, 2, 3, 3, 2, 2,3))
+align(memodels.table.phlawd.dc) <- c( 'r1',  'p{0.3in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}', 'p{0.5in}','p{0.5in}', 'p{0.5in}' , 'p{0.5in}')
+@
+
+
+% make tables of  site info and species
+<<label=sitetable2, echo=FALSE, results=hide>>=
+concexo <- subset(concdata, native.exotic=="exotic")
+concnat <- subset(concdata, native.exotic=="native")
+
+fitexo <- subset(fittermatic$matmod, native.exotic=="exotic")
+fitnat <- subset(fittermatic$matmod, native.exotic=="native")
+
+farexo <- subset(fargomatic$matmod, native.exotic=="exotic")
+farnat <- subset(fargomatic$matmod, native.exotic=="native")
+
+dcexo <- subset(washdcmatic$matmod, native.exotic=="exotic")
+dcnat <- subset(washdcmatic$matmod, native.exotic=="native")
+
+konzexo <- subset(konzmatic$matmod, native.exotic=="exotic")
+konznat <- subset(konzmatic $matmod, native.exotic=="native")
+
+
+concexod <- subset(concdoych, native.exotic=="exotic")
+concnatd<- subset(concdoych, native.exotic=="native")
+
+fitexod <- subset(fittermatic$doymod, native.exotic=="exotic")
+fitnatd <- subset(fittermatic$doymod, native.exotic=="native")
+
+farexod <- subset(fargomatic$doymod, native.exotic=="exotic")
+farnatd <- subset(fargomatic$doymod, native.exotic=="native")
+
+dcexod <- subset(washdcmatic$doymod, native.exotic=="exotic")
+dcnatd <- subset(washdcmatic$doymod, native.exotic=="native")
+
+exosppN <- c(nrow(fitexo), nrow(concexo), nrow(farexo), nrow(konzexo), nrow(dcexo))
+natsppN <- c(nrow(fitnat), nrow(concnat), nrow(farnat), nrow(konznat), nrow(dcnat))
+
+exosppdN <- c(nrow(fitexod), nrow(concexod), nrow(farexod), NA, nrow(dcexod))
+natsppdN <- c(nrow(fitnatd), nrow(concnatd), nrow(farnatd), NA, nrow(dcnatd))
+
+siterows <- cbind(exosppN, natsppN, exosppdN, natsppdN)
+
+sitetablephylo <- data.frame(siterows, row.names = c("Chinnor, UK", "Concord, MA, USA", 
+      "Fargo, ND, USA", "Konza LTER, KS, USA", "Washington, DC, USA"))
+names(sitetablephylo) <- c("exotic spp. n", "native spp. n", 
+     "exotic spp. n: flowering time shift models", "native spp. n: flowering time shift models")
+
+sitetablephylo.table <- xtable(sitetablephylo, caption="Site information based on models using PHLAWD trees. Compare with Table 1 in the main text for differences between Phylomatic and PHLAWD trees in species sampling.", label="labelhere", digits=c(0, 0, 0, 0, 0))
+align(sitetablephylo.table) <- c( 'r1',  'p{0.75in}', 'p{0.75in}', 'p{0.75in}', 'p{0.75in}')
+
+@
+
+<< echo=FALSE, results=tex,label=writesitetable2>>=
+print(sitetablephylo.table, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@
+
+<< echo=FALSE, results=tex>>=
+print(memodels.table.phlawd.conc , include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=konzatablewriteout>>=
+print(memodels.table.phlawd.konz , include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+
+<< echo=FALSE, results=tex,label=fargotablewriteout1>>=
+print(memodels.table.phlawd.far, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+<< echo=FALSE, results=tex,label=fargotablewriteout1>>=
+print(memodels.table.phlaw.far.noCheno , include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+
+<< echo=FALSE, results=tex,label=fittertablewriteout1>>=
+print(memodels.table.phlawd.fit, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+
+<< echo=FALSE, results=tex,label=dctablewriteout1>>=
+print(memodels.table.phlawd.dc, include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+@ 
+
+\clearpage
+\section{Shared species between Chinnor and Concord sites}
+<< echo=FALSE, results=tex,label=writesplisttable>>=
+print(splisttable, include.rownames=FALSE, caption.placement="top", hline.after=c(-1,0))
+@
+
+
+\end{document}
+
