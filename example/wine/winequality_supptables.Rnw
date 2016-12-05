@@ -56,7 +56,7 @@
 %%%%%%%%%%%%%%%% Now Lizzie attempts to write code %%%%%%
 <<echo=FALSE>>=
 options(width=90)
-source("/Users/Lizzie/Documents/git/projects/vintages/analyses/analyseataglance.R")
+source("analyses/analyseataglance.R")
 @
 
 

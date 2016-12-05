@@ -17,7 +17,7 @@ options(stringsAsFactors=FALSE)
 library(plyr)
 library(reshape)
 
-setwd("~/Documents/git/projects/vintages/analyses")
+setwd("~/Documents/git/teaching/demoSweave/example/wine/analyses")
 
 # get data #
 aagsg.raw <- read.csv("data/input/vintages_sg.csv", header=TRUE)

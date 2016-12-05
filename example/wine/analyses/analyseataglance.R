@@ -28,7 +28,7 @@ library(xtable)
 
 # stop("stopping here Lizzie ...")
 
-setwd("~/Documents/git/projects/vintages/analyses")
+setwd("~/Documents/git/teaching/demoSweave/example/wine/analyses")
 source("source/analysesfunctions.R")
 
 # data #
@@ -37,13 +37,13 @@ source("source/analysesfunctions.R")
 # vintage data
 allstars4reg <- read.csv("data/output/allstars4reg.csv", header=TRUE)
 # climate data from Ben
-temp <- read.csv("../../grapesdrought/WINELIZZIE/data/seas_temp_MJJ.onedeg.csv",
+temp <- read.csv("data/climate/seas_temp_MJJ.onedeg.csv",
     header=TRUE)
 colnames(temp)[1] <- "year"
-prec <- read.csv("../../grapesdrought/WINELIZZIE/data/seas_prec_MJJ.onedeg.csv",
+prec <- read.csv("data/climate/seas_prec_MJJ.onedeg.csv",
     header=TRUE)
 colnames(prec)[1] <- "year"
-pdsi <- read.csv("../../grapesdrought/WINELIZZIE/data/seas_pdsi_MJJ.onedeg.csv",
+pdsi <- read.csv("data/climate/seas_pdsi_MJJ.onedeg.csv",
     header=TRUE)
 colnames(pdsi)[1] <- "year"
 daux <- read.csv("data/input/dauxdata.csv", header=TRUE, skip=2)
