@@ -1,0 +1,74 @@
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{natbib}
+
+%Strongly recommended
+  %put your figures in one place
+%you'll want these for pretty captioning
+\usepackage[small]{caption}
+\setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
+
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ %\pagestyle{empty}       % Uncomment if don't want page numbers
+ \parskip 7.2pt           % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 15pt		  % sets leading space for paragraphs
+\usepackage{setspace}
+%\doublespacing
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{June 2015}
+\fancyhead[RO]{Wine quality}
+ 
+%%%%%%%%%%%%%%% END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES %%%%%%%%%%%%%%%%%%%%%%%
+
+%Start of the document
+\begin{document}
+% \bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/pnas}
+
+\title{Supplemental tables for Cook \& Wolkovich: \\ Analyses of wine quality over the last 100 years}
+% \author{Cook \& Wolkovich}
+\date{\today}
+\maketitle  %put the fancy title on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+% \renewcommand{\tablename}{Table S}
+% \renewcommand{\figurename}{Figure S}
+
+%%%%%%%%%%%%%%%% Now Lizzie attempts to write code %%%%%%
+<<echo=FALSE>>=
+options(width=90)
+source("/Users/Lizzie/Documents/git/projects/vintages/analyses/analyseataglance.R")
+@
+
+
+<<echo=FALSE, results=tex>>=
+clm.models.table <- xtable(clm.models.full, caption="No real caption as table is too long to fit in manuscript. I think we should include this information as two tables, see Tables S2 and D3 below.", digits=c(0,2,2,3,3,2,2, 2, 2), align="r|ll|ll|ll|ll",floating=FALSE)
+print(clm.models.table , include.rownames=TRUE, caption.placement="top")
+
+clm.models.part1.table <- xtable(clm.models.part1, caption="Coefficients and p-values from ordered logit models of wine quality data (on a scale of 0 to 5) and grape harvest dates (GHD) and Luterbacher May-July seasonal temperatures for the periods 1900-1980 and 1981-2001. For more details on data and analyses see XXXX (Methods in main text?).", align="||r||l|l||l|l||",floating=FALSE)
+print(clm.models.part1.table , include.rownames=TRUE, caption.placement="top")
+
+clm.models.part2.table <- xtable(clm.models.part2, caption="Coefficients and p-values from  ordered logit models of wine quality data (on a scale of 0 to 5) and Pauling May-July seasonal precipitation and Palmer Drought Severity Index (PDSI) for the periods 1900-1980 and 1981-2001. For more details on data and analyses see XXXX (Methods in main text?).", digits=c(0,3,3,3,3), align="||r||l|l||l|l||",floating=FALSE)
+print(clm.models.part2.table , include.rownames=TRUE, caption.placement="top")
+@ 
+
+\end{document}

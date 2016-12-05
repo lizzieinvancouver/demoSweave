@@ -1,0 +1,780 @@
+"region","year","stars"
+"germany",1727,4
+"germany",1738,4
+"germany",1746,4
+"germany",1748,5
+"germany",1749,5
+"germany",1750,4
+"germany",1779,4
+"germany",1781,4
+"germany",1783,4
+"bordeaux",1784,5
+"bordeaux",1787,3.5
+"madeira",1789,4
+"bordeaux",1791,4
+"madeira",1792,4
+"madeira",1793,5
+"germany",1794,4
+"madeira",1795,5
+"germany",1798,4
+"madeira",1798,5
+"bordeaux",1802,5
+"burgundy",1802,4
+"madeira",1802,5
+"bordeaux",1803,3
+"burgundy",1806,4
+"germany",1806,4
+"germany",1807,4
+"madeira",1808,5
+"bordeaux",1811,5
+"burgundy",1811,5
+"germany",1811,5
+"madeira",1811,3
+"port",1811,5
+"tokaji",1811,4
+"bordeaux",1814,4
+"burgundy",1815,4
+"madeira",1815,3
+"port",1815,4
+"bordeaux",1818,3
+"burgundy",1819,4
+"port",1820,3
+"madeira",1821,4
+"bordeaux",1822,3
+"burgundy",1822,4
+"germany",1822,5
+"madeira",1822,5
+"bordeaux",1825,4.5
+"burgundy",1825,4
+"germany",1825,4
+"germany",1826,4
+"madeira",1826,4
+"germany",1827,4
+"madeira",1827,4
+"bordeaux",1828,4
+"madeira",1830,5
+"bordeaux",1831,5
+"germany",1831,5
+"bordeaux",1832,3
+"madeira",1832,3
+"burgundy",1833,4
+"bordeaux",1834,5
+"burgundy",1834,4
+"germany",1834,5
+"madeira",1834,4
+"port",1834,5
+"tokaji",1834,5
+"madeira",1836,5
+"madeira",1837,4
+"port",1837,3
+"madeira",1839,4
+"port",1840,3
+"bordeaux",1841,4
+"germany",1842,4
+"bordeaux",1844,5
+"madeira",1845,3
+"bordeaux",1846,5
+"burgundy",1846,5
+"germany",1846,5
+"madeira",1846,5
+"bordeaux",1847,5
+"germany",1847,5
+"port",1847,5
+"bordeaux",1848,4.5
+"burgundy",1848,4
+"madeira",1850,4
+"bordeaux",1851,3
+"port",1851,4
+"port",1853,4
+"port",1854,3
+"champagne",1857,5
+"germany",1857,5
+"bordeaux",1858,4.5
+"burgundy",1858,3
+"germany",1858,5
+"port",1858,3
+"bordeaux",1859,3
+"burgundy",1859,4
+"germany",1859,4
+"madeira",1860,4
+"bordeaux",1861,3.5
+"germany",1861,5
+"germany",1862,4
+"madeira",1862,5
+"bordeaux",1863,3
+"madeira",1863,4
+"port",1863,5
+"bordeaux",1864,5
+"burgundy",1864,4.5
+"madeira",1864,3
+"alsace",1865,5
+"bordeaux",1865,5
+"burgundy",1865,5
+"germany",1865,5
+"tokaji",1865,3
+"bordeaux",1868,3
+"madeira",1868,5
+"port",1868,4
+"bordeaux",1869,4.5
+"burgundy",1869,4
+"germany",1869,5
+"port",1869,3
+"bordeaux",1870,4
+"burgundy",1870,4
+"champagne",1870,4
+"madeira",1870,4
+"port",1870,5
+"bordeaux",1871,4
+"port",1872,3
+"port",1873,3
+"bordeaux",1874,4
+"champagne",1874,5
+"bordeaux",1875,5
+"burgundy",1875,5
+"madeira",1875,4
+"port",1875,4
+"burgundy",1876,5
+"tokaji",1876,4
+"bordeaux",1877,4
+"burgundy",1877,3
+"madeira",1877,3
+"port",1877,3
+"bordeaux",1878,4
+"burgundy",1878,4
+"port",1878,5
+"madeira",1879,3
+"germany",1880,4
+"port",1881,3
+"port",1884,5
+"burgundy",1885,3
+"tokaji",1885,5
+"burgundy",1886,3
+"germany",1886,4
+"bordeaux",1887,3
+"burgundy",1887,4
+"port",1887,3
+"bordeaux",1888,3
+"tokaji",1889,5
+"port",1890,3
+"madeira",1891,3
+"bordeaux",1892,3
+"champagne",1892,5
+"madeira",1892,3
+"bordeaux",1893,4.5
+"burgundy",1893,3
+"germany",1893,5
+"madeira",1893,4
+"port",1893,3
+"burgundy",1894,3
+"bordeaux",1895,4
+"madeira",1895,4
+"port",1895,3
+"bordeaux",1896,4
+"port",1896,4
+"port",1897,4
+"bordeaux",1898,3
+"burgundy",1898,3
+"madeira",1898,4
+"bordeaux",1899,4.5
+"burgundy",1899,4
+"champagne",1899,5
+"madeira",1899,4
+"alsace",1900,5
+"bordeaux",1900,4.5
+"germany",1900,3
+"madeira",1900,5
+"northern rhone",1900,5
+"port",1900,5
+"tokaji",1900,5
+"germany",1901,3
+"madeira",1901,5
+"tokaji",1901,4
+"madeira",1903,3
+"bordeaux",1904,4
+"burgundy",1904,4
+"champagne",1904,5
+"germany",1904,4
+"port",1904,4
+"tokaji",1904,4
+"bordeaux",1905,3
+"germany",1905,3
+"madeira",1905,3
+"bordeaux",1906,4
+"burgundy",1906,5
+"tokaji",1906,4
+"germany",1907,3
+"madeira",1907,3
+"madeira",1908,4
+"port",1908,5
+"bordeaux",1909,4
+"madeira",1910,5
+"port",1910,3
+"bordeaux",1911,4
+"burgundy",1911,5
+"champagne",1911,5
+"germany",1911,5
+"madeira",1911,4
+"port",1911,3
+"madeira",1912,3
+"port",1912,5
+"tokaji",1912,5
+"madeira",1913,3
+"bordeaux",1914,3
+"burgundy",1914,3
+"champagne",1914,4
+"madeira",1914,4
+"burgundy",1915,5
+"champagne",1915,3
+"germany",1915,4
+"madeira",1915,3
+"burgundy",1916,3
+"madeira",1916,3
+"germany",1917,4
+"port",1917,3
+"tokaji",1917,3
+"bordeaux",1918,3
+"burgundy",1918,3
+"bordeaux",1919,3
+"burgundy",1919,4.5
+"champagne",1919,3
+"bordeaux",1920,4
+"burgundy",1920,4
+"champagne",1920,5
+"germany",1920,4
+"madeira",1920,4
+"port",1920,4
+"alsace",1921,4
+"bordeaux",1921,4.5
+"burgundy",1921,3
+"champagne",1921,5
+"germany",1921,5
+"port",1922,3
+"bordeaux",1923,3
+"burgundy",1923,4
+"champagne",1923,4
+"bordeaux",1924,3
+"burgundy",1924,3
+"port",1924,4
+"tokaji",1924,5
+"bordeaux",1926,4.5
+"burgundy",1926,4
+"champagne",1926,3
+"germany",1926,3
+"madeira",1926,4
+"madeira",1927,3
+"port",1927,5
+"alsace",1928,4
+"bordeaux",1928,4.5
+"burgundy",1928,4.5
+"champagne",1928,5
+"loire",1928,5
+"bordeaux",1929,5
+"burgundy",1929,4.5
+"champagne",1929,4
+"germany",1929,4
+"northern rhone",1929,5
+"southern rhone",1929,5
+"port",1931,5
+"bordeaux",1933,3
+"burgundy",1933,4
+"loire",1933,3
+"madeira",1933,3
+"northern rhone",1933,4
+"port",1933,3
+"alsace",1934,4
+"bordeaux",1934,4
+"burgundy",1934,4
+"champagne",1934,4
+"germany",1934,4
+"loire",1934,4
+"madeira",1934,4
+"northern rhone",1934,3
+"port",1934,4
+"southern rhone",1934,4
+"alsace",1935,3
+"bordeaux",1935,3
+"burgundy",1935,3
+"madeira",1935,3
+"port",1935,5
+"tokaji",1935,4
+"madeira",1936,5
+"alsace",1937,5
+"bordeaux",1937,5
+"burgundy",1937,4.5
+"champagne",1937,5
+"germany",1937,5
+"loire",1937,5
+"northern rhone",1937,4
+"southern rhone",1937,4
+"tokaji",1937,5
+"bordeaux",1939,3
+"madeira",1939,4
+"southern rhone",1939,3
+"madeira",1940,4
+"burgundy",1941,3
+"california",1941,5
+"madeira",1941,4
+"bordeaux",1942,4
+"burgundy",1942,3
+"california",1942,4
+"champagne",1942,3
+"germany",1942,3.5
+"northern rhone",1942,3
+"port",1942,3
+"bordeaux",1943,3.5
+"burgundy",1943,4
+"champagne",1943,4
+"germany",1943,3
+"northern rhone",1943,4
+"tokaji",1943,3
+"bordeaux",1944,3
+"california",1944,3
+"port",1944,4
+"southern rhone",1944,3
+"alsace",1945,5
+"bordeaux",1945,5
+"burgundy",1945,4.5
+"champagne",1945,5
+"germany",1945,5
+"loire",1945,4
+"madeira",1945,3
+"northern rhone",1945,5
+"piedmont italy",1945,4
+"port",1945,5
+"southern rhone",1945,5
+"tokaji",1945,5
+"tuscany italy",1945,4
+"bordeaux",1946,3
+"california",1946,5
+"germany",1946,3
+"bordeaux",1947,5
+"burgundy",1947,4.5
+"california",1947,4
+"champagne",1947,4
+"germany",1947,4
+"loire",1947,5
+"northern rhone",1947,4
+"piedmont italy",1947,5
+"port",1947,4
+"southern rhone",1947,4
+"tokaji",1947,5
+"tuscany italy",1947,5
+"bordeaux",1948,3
+"port",1948,4
+"bordeaux",1949,5
+"burgundy",1949,4.5
+"california",1949,3
+"champagne",1949,4
+"germany",1949,5
+"loire",1949,5
+"northern rhone",1949,5
+"piedmont italy",1949,3
+"southern rhone",1949,5
+"tuscany italy",1949,3
+"burgundy",1950,3
+"california",1951,5
+"bordeaux",1952,3.5
+"burgundy",1952,4
+"champagne",1952,5
+"germany",1952,3
+"madeira",1952,3
+"northern rhone",1952,4
+"piedmont italy",1952,4
+"southern rhone",1952,5
+"tokaji",1952,5
+"tuscany italy",1952,4
+"alsace",1953,3
+"bordeaux",1953,4.5
+"burgundy",1953,4
+"champagne",1953,4
+"germany",1953,5
+"loire",1953,3
+"northern rhone",1953,4
+"southern rhone",1953,3
+"madeira",1954,4
+"port",1954,3
+"bordeaux",1955,4.5
+"burgundy",1955,3.5
+"california",1955,3
+"champagne",1955,4
+"loire",1955,3
+"northern rhone",1955,4
+"piedmont italy",1955,3
+"port",1955,5
+"southern rhone",1955,4
+"tuscany italy",1955,4
+"california",1956,4
+"tokaji",1956,3
+"burgundy",1957,3
+"madeira",1957,4
+"northern rhone",1957,4
+"southern rhone",1957,4
+"tokaji",1957,5
+"california",1958,5
+"madeira",1958,3
+"piedmont italy",1958,5
+"port",1958,3
+"tuscany italy",1958,3
+"alsace",1959,5
+"bordeaux",1959,5
+"burgundy",1959,4
+"california",1959,4
+"champagne",1959,5
+"germany",1959,4.5
+"loire",1959,5
+"northern rhone",1959,5
+"piedmont italy",1959,5
+"southern rhone",1959,5
+"tuscany italy",1959,3
+"california",1960,3
+"madeira",1960,3
+"port",1960,4
+"alsace",1961,5
+"bordeaux",1961,4
+"burgundy",1961,4
+"california",1961,3
+"champagne",1961,4
+"germany",1961,3
+"northern rhone",1961,5
+"piedmont italy",1961,5
+"port",1961,3
+"southern rhone",1961,5
+"tokaji",1961,4
+"tuscany italy",1961,3
+"bordeaux",1962,4
+"burgundy",1962,5
+"champagne",1962,4
+"loire",1962,4
+"northern rhone",1962,4
+"piedmont italy",1962,3
+"southern rhone",1962,4
+"tuscany italy",1962,5
+"california",1963,4
+"germany",1963,3.5
+"port",1963,5
+"tokaji",1963,5
+"alsace",1964,4
+"bordeaux",1964,4
+"burgundy",1964,3.5
+"california",1964,4
+"champagne",1964,5
+"germany",1964,4
+"loire",1964,5
+"madeira",1964,3
+"northern rhone",1964,4
+"piedmont italy",1964,5
+"southern rhone",1964,4
+"tokaji",1964,4
+"tuscany italy",1964,5
+"california",1965,5
+"alsace",1966,3
+"bordeaux",1966,3.5
+"burgundy",1966,4.5
+"california",1966,4
+"champagne",1966,4
+"germany",1966,3
+"loire",1966,3
+"madeira",1966,4
+"northern rhone",1966,4
+"port",1966,5
+"southern rhone",1966,3
+"alsace",1967,4
+"bordeaux",1967,5
+"burgundy",1967,4
+"california",1967,3
+"germany",1967,5
+"northern rhone",1967,4
+"piedmont italy",1967,4
+"southern rhone",1967,4
+"tuscany italy",1967,5
+"california",1968,5
+"madeira",1968,4
+"piedmont italy",1968,3
+"tokaji",1968,5
+"tuscany italy",1968,4
+"burgundy",1969,4.5
+"california",1969,5
+"champagne",1969,3
+"germany",1969,3
+"loire",1969,3
+"northern rhone",1969,5
+"piedmont italy",1969,3
+"southern rhone",1969,4
+"bordeaux",1970,3.5
+"burgundy",1970,3
+"california",1970,4
+"champagne",1970,4
+"germany",1970,3
+"northern rhone",1970,4
+"piedmont italy",1970,4
+"port",1970,5
+"southern rhone",1970,5
+"tuscany italy",1970,3
+"alsace",1971,5
+"bordeaux",1971,4.5
+"burgundy",1971,4
+"california",1971,3
+"champagne",1971,5
+"germany",1971,5
+"loire",1971,4
+"madeira",1971,3
+"northern rhone",1971,5
+"piedmont italy",1971,5
+"southern rhone",1971,4
+"tuscany italy",1971,5
+"burgundy",1972,3
+"california",1972,3
+"northern rhone",1972,4
+"southern rhone",1972,3
+"tokaji",1972,5
+"burgundy",1973,4
+"california",1973,4
+"champagne",1973,3
+"germany",1973,5
+"tokaji",1973,3
+"tuscany italy",1973,3
+"california",1974,5
+"piedmont italy",1974,5
+"alsace",1975,3
+"bordeaux",1975,4.5
+"california",1975,3
+"champagne",1975,3
+"germany",1975,4
+"loire",1975,3
+"tokaji",1975,4
+"tuscany italy",1975,4
+"alsace",1976,5
+"bordeaux",1976,3.5
+"burgundy",1976,3.5
+"california",1976,3
+"champagne",1976,4
+"germany",1976,4
+"loire",1976,4
+"northern rhone",1976,3
+"port",1977,5
+"tuscany italy",1977,4
+"bordeaux",1978,3
+"burgundy",1978,4.5
+"california",1978,4
+"loire",1978,3
+"northern rhone",1978,5
+"piedmont italy",1978,5
+"southern rhone",1978,5
+"tuscany italy",1978,5
+"bordeaux",1979,3
+"burgundy",1979,3.5
+"california",1979,3
+"champagne",1979,4
+"germany",1979,3
+"northern rhone",1979,4
+"piedmont italy",1979,3
+"southern rhone",1979,3
+"tuscany italy",1979,4
+"burgundy",1980,3
+"california",1980,4
+"port",1980,3
+"southern rhone",1980,3
+"alsace",1981,4
+"bordeaux",1981,3
+"california",1981,3
+"champagne",1981,4
+"northern rhone",1981,3
+"southern rhone",1981,3
+"tokaji",1981,4
+"tuscany italy",1981,3
+"bordeaux",1982,4
+"burgundy",1982,4
+"california",1982,4
+"champagne",1982,5
+"loire",1982,3
+"northern rhone",1982,4
+"piedmont italy",1982,5
+"port",1982,3
+"southern rhone",1982,4
+"tuscany italy",1982,5
+"alsace",1983,5
+"bordeaux",1983,4
+"burgundy",1983,3.5
+"champagne",1983,3
+"germany",1983,4
+"northern rhone",1983,5
+"piedmont italy",1983,3
+"port",1983,4
+"southern rhone",1983,5
+"tokaji",1983,5
+"tuscany italy",1983,3
+"california",1984,3
+"alsace",1985,4
+"bordeaux",1985,4.5
+"burgundy",1985,4.5
+"california",1985,5
+"champagne",1985,5
+"germany",1985,3
+"loire",1985,4
+"northern rhone",1985,5
+"piedmont italy",1985,5
+"port",1985,4
+"southern rhone",1985,5
+"tuscany italy",1985,5
+"alsace",1986,4
+"bordeaux",1986,4
+"burgundy",1986,4.5
+"champagne",1986,3
+"germany",1986,3
+"loire",1986,4
+"northern rhone",1986,3
+"piedmont italy",1986,4
+"southern rhone",1986,3
+"tuscany italy",1986,4
+"burgundy",1987,3
+"piedmont italy",1987,3
+"port",1987,3
+"tuscany italy",1987,3
+"alsace",1988,5
+"bordeaux",1988,4
+"burgundy",1988,4
+"california",1988,3
+"champagne",1988,5
+"germany",1988,4
+"loire",1988,4
+"northern rhone",1988,4
+"piedmont italy",1988,5
+"southern rhone",1988,3
+"tokaji",1988,4
+"tuscany italy",1988,5
+"alsace",1989,5
+"bordeaux",1989,5
+"burgundy",1989,4.5
+"california",1989,4
+"champagne",1989,4
+"germany",1989,4
+"loire",1989,5
+"northern rhone",1989,4
+"piedmont italy",1989,4
+"port",1989,3
+"southern rhone",1989,5
+"tuscany italy",1989,3
+"alsace",1990,5
+"bordeaux",1990,5
+"burgundy",1990,4.5
+"california",1990,4
+"champagne",1990,5
+"germany",1990,5
+"loire",1990,5
+"northern rhone",1990,5
+"piedmont italy",1990,5
+"port",1990,3
+"southern rhone",1990,5
+"tokaji",1990,3
+"tuscany italy",1990,5
+"burgundy",1991,3
+"california",1991,5
+"germany",1991,3
+"northern rhone",1991,3
+"port",1991,4
+"tokaji",1991,4
+"alsace",1992,4
+"burgundy",1992,3
+"california",1992,4
+"champagne",1992,4
+"germany",1992,4
+"northern rhone",1992,3
+"port",1992,4
+"southern rhone",1992,3
+"tokaji",1992,4
+"alsace",1993,4
+"bordeaux",1993,3
+"burgundy",1993,3.5
+"california",1993,4
+"champagne",1993,3
+"germany",1993,5
+"loire",1993,3
+"piedmont italy",1993,3
+"tokaji",1993,5
+"tuscany italy",1993,3
+"alsace",1994,3
+"bordeaux",1994,3
+"burgundy",1994,3
+"california",1994,5
+"germany",1994,4
+"port",1994,4
+"tuscany italy",1994,4
+"alsace",1995,5
+"bordeaux",1995,4
+"burgundy",1995,4
+"california",1995,4
+"champagne",1995,4
+"germany",1995,4
+"loire",1995,4
+"madeira",1995,4
+"northern rhone",1995,4
+"piedmont italy",1995,3
+"port",1995,3
+"southern rhone",1995,5
+"tuscany italy",1995,5
+"alsace",1996,4
+"bordeaux",1996,4.5
+"burgundy",1996,4.5
+"california",1996,3
+"champagne",1996,5
+"germany",1996,4
+"loire",1996,4
+"northern rhone",1996,3
+"piedmont italy",1996,4
+"port",1996,3
+"southern rhone",1996,3
+"tokaji",1996,4
+"tuscany italy",1996,4
+"alsace",1997,5
+"bordeaux",1997,3.5
+"burgundy",1997,4.5
+"california",1997,5
+"champagne",1997,4
+"germany",1997,4
+"loire",1997,5
+"northern rhone",1997,3
+"piedmont italy",1997,5
+"port",1997,4
+"southern rhone",1997,3
+"tokaji",1997,3
+"tuscany italy",1997,5
+"alsace",1998,4
+"bordeaux",1998,3.5
+"burgundy",1998,4
+"california",1998,3
+"champagne",1998,4
+"germany",1998,4
+"loire",1998,3
+"northern rhone",1998,5
+"piedmont italy",1998,3
+"port",1998,3
+"southern rhone",1998,5
+"tuscany italy",1998,3
+"alsace",1999,3
+"bordeaux",1999,4
+"burgundy",1999,4.5
+"california",1999,5
+"champagne",1999,4
+"germany",1999,4
+"loire",1999,3
+"northern rhone",1999,5
+"piedmont italy",1999,4
+"port",1999,3
+"southern rhone",1999,4
+"tokaji",1999,5
+"tuscany italy",1999,4
+"alsace",2000,4
+"bordeaux",2000,3.5
+"burgundy",2000,3
+"california",2000,4
+"germany",2000,3
+"loire",2000,3
+"northern rhone",2000,3
+"piedmont italy",2000,4
+"port",2000,5
+"southern rhone",2000,3
+"tokaji",2000,5
+"tuscany italy",2000,4
+"bordeaux",2001,5
+"california",2001,5
+"germany",2001,4

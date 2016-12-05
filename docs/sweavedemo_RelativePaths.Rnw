@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 
 % recommended! Uncomment the below line and change the path for your computer!
-% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/demoSweave/figures/demoFig, eps=F} 
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/figures/demoFig, eps=F} 
 %put your figures in one place! Also, note that here 'figures' is the folder and 'demoFig' is what each 
 % figure produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
 % make your captioning look better
@@ -34,6 +34,7 @@
 %%% end preambling. %%%
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \title{{\huge Sweave:} \\Integrating R into your \TeX{} documents}
 \author{Lizzie Wolkovich}
 \date{10 October 2012}
