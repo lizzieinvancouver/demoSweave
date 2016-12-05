@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 
 % recommended! Uncomment the below line and change the path for your computer!
-% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/figures/demoFig, eps=F} 
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/figures/demoFig, eps=FALSE} 
 %put your figures in one place! Also, note that here 'figures' is the folder and 'demoFig' is what each 
 % figure produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
 % make your captioning look better
@@ -37,7 +37,7 @@
 \SweaveOpts{concordance=TRUE}
 \title{{\huge Sweave:} \\Integrating R into your \TeX{} documents}
 \author{Lizzie Wolkovich}
-\date{10 October 2012}
+\date{10 October 2012} % Updated 5 Dec 2016 to fix paths
 \maketitle 
 
 \section{Important note: Sweave is dead easy}
@@ -84,7 +84,7 @@ qqnorm(rnorm(100))
 
 Excellent, moving on let's use some real data. We'll grab some data and ask R about it. 
 <<label=getpinot, echo=FALSE>>=
-pinot <- read.delim("pinotnoir.txt", header=TRUE)
+pinot <- read.delim("..//data/pinotnoir.txt", header=TRUE)
 head(pinot)
 range(pinot$year)
 @
@@ -94,7 +94,7 @@ Since I did not write \verb@results=hide@ you see the output.\\
 Let's contrast the above if I let echoing happen.
 
 <<label=getpinotwecho>>=
-pinot <- read.delim("pinotnoir.txt", header=TRUE)
+pinot <- read.delim("..//data/pinotnoir.txt", header=TRUE)
 head(pinot)
 range(pinot$year)
 @
